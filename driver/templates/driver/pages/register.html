@@ -1,0 +1,44 @@
+{% extends 'global/partials/base.html' %}
+{% load static %}
+
+{% block title %}
+User Registration
+{% endblock title %}
+
+{% block content %}
+{% if messages %}
+<div class="messages show">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form action="{% url 'driver:create' %}" method="POST">
+    {% csrf_token %}
+    {% if form.errors %}
+    <div class=" messages message-error">
+        <p>Existem erros no formulario</p>
+    </div>
+    {% endif %}
+
+    <div class="form-content-grid">
+        {% for field in form %}
+        <div class="form-content">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+            <p class="help-text">{{ field.help_text }}</p>
+            {% endif %}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="form-button">
+        <div class="form-group">
+            <button type="submit">Send</button>
+        </div>
+    </div>
+</form>
+{% endblock content %}

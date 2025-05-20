@@ -1,0 +1,15 @@
+{% extends 'global/partials/base_user.html' %}
+{% load static %}
+
+{% block title %}
+Tracker
+{% endblock title %}
+
+{% block content %}
+<h1>Tracker</h1>
+<p id="tracker-info">Enviando sua localização...</p>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/tracker.js' %}?v={{ timestamp }}"></script>
+{% endblock js %}

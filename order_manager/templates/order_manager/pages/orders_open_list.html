@@ -1,0 +1,34 @@
+{% extends 'global/partials/base.html' %}
+
+{% block title %}
+Ordens abertas
+{% endblock title %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Data de Entrega</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Motorista</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ordem in orders %}
+        <tr>
+            <td>{{ordem.id}}</td>
+            <td>{{ordem.delivery_date}}</td>
+            <td>{{ordem.client}}</td>
+            <td>{{ordem.status}}</td>
+            <td>{{ordem.driver}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" style="text-align:center;">Nenhuma ordem encontrada</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'global/partials/base.html' %}
+
+{% block title %}
+Orders Register
+{% endblock title %}
+
+{% block content %}
+{% if messages %}
+<div class="messages show">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+<form action="{% url 'order_manager:register_verify' %}" method="POST">
+    {% csrf_token %}
+
+    <div class="form-content-grid">
+        {% for field in form %}
+        <div class="form-content">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+
+            {% if field.help_text %}
+            <p class="help-text">{{ field.help_text }}</p>
+            {% endif %}
+
+            {% if field.erros %}
+            {% for error in field.erros %}
+            <p>{{ field.errors }}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="form-button">
+        <button type="submit">Send</button>
+    </div>
+</form>
+{% endblock content %}

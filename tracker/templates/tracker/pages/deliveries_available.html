@@ -1,0 +1,13 @@
+{% extends 'global/partials/base_user.html' %}
+{% load static %}
+
+{% block content %}
+<div id="message" class="message_radio">
+    <!-- <button id="send" type="submit">Enviar</button> -->
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/choice.js' %}?v={{ timestamp }}"></script>
+{% endblock %}

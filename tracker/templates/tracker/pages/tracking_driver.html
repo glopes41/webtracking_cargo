@@ -1,0 +1,22 @@
+{% extends 'global/partials/base_user.html' %}
+{% load static %}
+
+{% block title %}
+Tracker driver
+{% endblock title %}
+
+{% block content %}
+<div class="messages" id="message">
+
+</div>
+
+<div class="comand" id="command">
+    <div id="send">
+    <button id="submit" type="submit">Enviar</button>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/tracker.js' %}?v={{ timestamp }}"></script>
+{% endblock %}

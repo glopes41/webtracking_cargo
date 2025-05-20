@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v={{ timestamp }}">
+    <title>{% block title %}{% endblock title %}</title>
+    {% block head %}{% endblock head %}
+
+</head>
+
+<body>
+    <div class="main-content">
+        <div class="header-content">
+            <header>
+                <nav>
+                    <ul>
+                        {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'tracker:delivery_choice' %}">Ordens Pendentes</a></li>
+                        <li><a href="{% url 'driver:logout' %}">Logout</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% block header %}
+                {% endblock header %}
+            </header>
+        </div>
+        <div class="content">
+            {% block content %}
+            <!-- main content -->
+            {% endblock content %}
+        </div>
+        <div class="footer-content">
+            <footer>
+                {% block footer %}
+                <p>&copy; Transcargo S.A. {% now "Y" %}</p>
+                {% endblock footer %}
+            </footer>
+        </div>
+    </div>
+    {% block js %}
+    {% endblock js %}
+</body>
+
+</html>

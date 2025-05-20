@@ -1,0 +1,20 @@
+{% extends 'global/partials/base.html' %}
+{% load static %}
+
+{% block title %}Mapa com Rota{% endblock title %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock head %}
+
+{% block content %}
+{% if route %}
+<div id="map"></div>
+{% else %}
+<h1>Sem dados</h1>
+{% endif %}
+{% endblock content %}
+{% block js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{% static 'js/map.js' %}?v={{ timestamp }}"></script>
+{% endblock js %}

@@ -1,0 +1,68 @@
+{% extends 'global/partials/base.html' %}
+
+{% block title %}
+Buscar Ordens
+{% endblock title %}
+
+{% block content %}
+<div class="form-search">
+    <form method="get">
+        <div class="form-group">
+            <label>Status:</label>
+            <select name="status">
+                <option value="">-- Todos --</option>
+                <option value="pendente" {% if status_selecionado == "pendente" %}selected{% endif %}>Pendente</option>
+                <option value="transito" {% if status_selecionado == "transito" %}selected{% endif %}>Em Trânsito</option>
+                <option value="concluida" {% if status_selecionado == "concluida" %}selected{% endif %}>Concluída</option>
+            </select>
+
+            <label>Cliente:</label>
+            <select name="client">
+                <option value="">-- Todos --</option>
+                {% for c in clientes %}
+                <option value="{{ c.id }}" {% if client_selecionado == c.id|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Motorista:</label>
+            <select name="driver">
+                <option value="">-- Todos --</option>
+                {% for d in motoristas %}
+                <option value="{{ d.id }}" {% if driver_selecionado == d.id|stringformat:"s" %}selected{% endif %}>{{ d.get_full_name }}</option>
+                {% endfor %}
+            </select>
+            <button class="button-search" type="submit">Buscar</button>
+        </div>
+    </form>
+</div>
+<hr>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Data de Entrega</th>
+            <th>Motorista</th>
+            <th>Última Atualização</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ordem in ordens %}
+        <tr {% if ordem.status == "transito" %} class="clickable" style="cursor:pointer;" onclick="window.location='{% url 'tracker:show_map' ordem.id %}'" {% endif %}>
+            <td>{{ ordem.id }}</td>
+            <td>{{ ordem.client.name }}</td>
+            <td>{{ ordem.get_status_display }}</td>
+            <td>{{ ordem.delivery_date }}</td>
+            <td>{{ ordem.driver.get_full_name|default:"-" }}</td>
+            <td>{{ ordem.last_update }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" style="text-align:center;">Nenhuma ordem encontrada</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

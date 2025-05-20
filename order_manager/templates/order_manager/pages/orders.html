@@ -1,0 +1,36 @@
+{% extends 'global/partials/base.html' %}
+
+{% block title %}
+Order List
+{% endblock title %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Data de Entrega</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Motorista</th>
+            <th>Última Atualização</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr {% if order.status == "transito" %} class="clickable" style="cursor:pointer;" onclick="window.location='{% url 'tracker:show_map' order.id %}'" {% endif %}>
+            <td>{{order.id}}</td>
+            <td>{{order.delivery_date}}</td>
+            <td>{{order.client}}</td>
+            <td>{{order.status}}</td>
+            <td>{{order.driver}}</td>
+            <td>{{order.last_update}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" style="text-align:center;">Nenhuma ordem encontrada</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

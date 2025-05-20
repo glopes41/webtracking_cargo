@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v={{ timestamp }}">
+    {% block head %}{% endblock head %}
+
+</head>
+
+<body>
+    <div class="main-content">
+        {% if not request.user.is_authenticated %}
+        <div class="header-content">
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'driver:login' %}">Clique para acessar o sistema</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+        {% else %}
+        <div class="header-content">
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'order_manager:register' %}">Nova Ordem</a></li>
+                        <li><a href="{% url 'order_manager:search' %}">Busca</a></li>
+                        <li><a href="{% url 'driver:logout' %}">Logout</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+        {% endif %}
+        <div class="content">
+            {% block content %}
+            {% if message %}
+            <h1>{{message}}</h1>
+            {% endif %}
+            {% endblock content %}
+        </div>
+        <div class="footer-content">
+            <footer>
+                {% block footer %}
+                <p>&copy; Transcargo S.A. {% now "Y" %}</p>
+                {% endblock footer %}
+            </footer>
+        </div>
+    </div>
+    {% block js %}{% endblock js %}
+</body>
+
+</html>

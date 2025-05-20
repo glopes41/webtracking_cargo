@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    {% block head %}{% endblock head %}
+
+</head>
+
+<body>
+    <div class="main-content">
+        <div class="header-content">
+            <header>
+                <nav>
+                    <li><a href="{% url 'driver:register' %}">Cadastro</a></li>
+                </nav>
+                {% block header %}
+
+                {% endblock header %}
+            </header>
+        </div>
+        <div class="description">
+            <p>Informe os dado para fazer login</p>
+        </div>
+        <div class="content">
+            {% block content %}
+            {% if messages %}
+            <div class="messages show">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form action="{% url 'driver:login_create' %}" method="POST">
+                {% csrf_token %}
+                {% if form.errors %}
+                <div class=" messages message-error">
+                    <p>Existem erros no formulario</p>
+                </div>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                <p>Você está logado como: {{ request.user.username }} <a href="{% url 'driver:logout' %}">Logout</a></p>
+                {% endif %}
+                <div class="form-content form-content-grid">
+                    {% for field in form %}
+                    <div class="form-content">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                        <p class="help-text">{{ field.help_text }}</p>
+                        {% endif %}
+                        {{ field.errors }}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-button">
+                    <div class="form-group">
+                        <button type="submit">Send</button>
+                    </div>
+                </div>
+            </form>
+            {% endblock content %}
+        </div>
+        <div class="footer-content">
+            <footer>
+                {% block footer %}
+                <p>&copyTranscargo S.A. {% now "Y" %}</p>
+                {% endblock footer %}
+            </footer>
+        </div>
+    </div>
+    {% block js %}{% endblock js %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v={{ timestamp }}">
+</body>
+
+</html>
